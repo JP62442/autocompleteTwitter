@@ -1,10 +1,10 @@
 import { useHits } from "react-instantsearch-hooks";
 
-export function Autocomplete({ handleSelection }) {
+export function Autocomplete({ handleSelection, top }) {
   const { hits } = useHits();
 
   return (
-    <div className="autocomplete-panel">
+    <div className="autocomplete-panel" style={{ top }}>
       {hits.length > 0 && (
         <ul className="autocomplete-items">
           {hits.map((hit) => (

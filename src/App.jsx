@@ -5,12 +5,18 @@ import { getActiveToken } from "./utils/getActiveToken";
 import { useSearchBox } from "react-instantsearch-hooks";
 import { Autocomplete } from "./Autocomplete";
 
+import getCaretCoordinates from "textarea-caret";
+
 export function App() {
   const [showAutocomplete, setShowAutocomplete] = useState(false);
 
+  const inputRef = useRef();
+
   const { refine } = useSearchBox();
 
-  const inputRef = useRef();
+  const { top, height } = inputRef.current
+    ? getCaretCoordinates(inputRef.current, inputRef.current.selectionEnd)
+    : { top: 0, height: 0 };
 
   const handleInput = () => {
     const { value, selectionEnd = 0 } = inputRef.current;
@@ -56,7 +62,10 @@ export function App() {
             </form>
 
             {showAutocomplete && (
-              <Autocomplete handleSelection={handleSelection} />
+              <Autocomplete
+                handleSelection={handleSelection}
+                top={`${top + height}px`}
+              />
             )}
           </div>
         </div>
