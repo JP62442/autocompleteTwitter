@@ -1,6 +1,6 @@
 import { useHits } from "react-instantsearch-hooks";
 
-export function Autocomplete({ handleSelection = () => {} }) {
+export function Autocomplete({ handleSelection }) {
   const { hits } = useHits();
 
   return (

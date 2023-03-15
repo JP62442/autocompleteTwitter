@@ -19,6 +19,22 @@ export function App() {
     setShowAutocomplete(shouldOpenAutocomplete);
     shouldOpenAutocomplete && refine(word.slice(1));
   };
+
+  const handleSelection = (userHandle) => {
+    const { value, selectionEnd = 0 } = inputRef.current;
+    const { word, range } = getActiveToken(value, selectionEnd);
+    const [index] = range;
+
+    const prefix = value.substring(0, index);
+    const suffix = value.substring(index + word.length);
+
+    const newText = prefix + `@${userHandle}` + suffix;
+
+    inputRef.current.value = newText;
+
+    setShowAutocomplete(false);
+  };
+
   return (
     <main className="container">
       <section className="box">
@@ -38,7 +54,9 @@ export function App() {
               />
             </form>
 
-            {showAutocomplete && <Autocomplete />}
+            {showAutocomplete && (
+              <Autocomplete handleSelection={handleSelection} />
+            )}
           </div>
         </div>
 
