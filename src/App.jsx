@@ -31,6 +31,7 @@ export function App() {
     const newText = prefix + `@${userHandle}` + suffix;
 
     inputRef.current.value = newText;
+    inputRef.current.focus();
 
     setShowAutocomplete(false);
   };
