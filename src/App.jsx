@@ -2,8 +2,13 @@ import { useRef, useState } from "react";
 
 import { getActiveToken } from "./utils/getActiveToken";
 
+import { useSearchBox } from "react-instantsearch-hooks";
+import { Autocomplete } from "./Autocomplete";
+
 export function App() {
   const [showAutocomplete, setShowAutocomplete] = useState(false);
+
+  const { refine } = useSearchBox();
 
   const inputRef = useRef();
 
@@ -12,7 +17,7 @@ export function App() {
     const { word } = getActiveToken(value, selectionEnd);
     const shouldOpenAutocomplete = /^@\w{1,15}$/.test(word);
     setShowAutocomplete(shouldOpenAutocomplete);
-    //shouldOpenAutocomplete && search(word.slice(1))
+    shouldOpenAutocomplete && refine(word.slice(1));
   };
   return (
     <main className="container">
@@ -33,9 +38,7 @@ export function App() {
               />
             </form>
 
-            {showAutocomplete && (
-              <div className="autocomplete-panel">Autocomplete</div>
-            )}
+            {showAutocomplete && <Autocomplete />}
           </div>
         </div>
 
